@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>imzali-depo · tarayıcı doğrulayıcı</title>
+<meta name="description" content="Ed25519 imzalı depo indeksini ve dosya özetlerini tamamen tarayıcıda doğrulayın.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 4 7v8c0 7.5 5.1 13.4 12 15 6.9-1.6 12-7.5 12-15V7z' fill='%23071222' stroke='%234fd1ff' stroke-width='2'/%3E%3Cpath d='m10 16 4 4 8-8' fill='none' stroke='%2322e3a4' stroke-width='2.5'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="stil.css">
+<script type="module" src="uygulama.js"></script>
+</head>
+<body>
+<a class="atla" href="#sonuc">Sonuca atla</a>
+<header class="ust">
+  <div class="kap">
+    <p class="etiket"><span class="isik" id="genel-isik" data-durum="bekliyor" aria-hidden="true"></span> TEDARİK ZİNCİRİ BÜTÜNLÜĞÜ · Ed25519 + SHA-256</p>
+    <h1>imzali-depo</h1>
+    <p class="alt">İmzalı bir depo indeksini ve içindeki her dosyayı tamamen tarayıcınızda doğrulayın — hiçbir dosya bir sunucuya gönderilmez.</p>
+  </div>
+</header>
+
+<main class="kap">
+  <div id="destek-uyari" class="uyari" role="alert" hidden>
+    <strong>Bu tarayıcı Ed25519 desteklemiyor.</strong>
+    WebCrypto <code>crypto.subtle.verify({name:'Ed25519'})</code> bu tarayıcıda yok; imza doğrulanamaz.
+    Güncel bir Chrome / Edge (137+), Firefox (129+) ya da Safari (17+) kullanın veya komut satırı aracını çalıştırın:
+    <code>imzali-depo dogrula &lt;dizin&gt; --acik-anahtar kok.pub</code>
+  </div>
+
+  <section class="kart" aria-labelledby="b-girdi">
+    <h2 id="b-girdi" class="etiket">01 · DEPOYU BIRAKIN</h2>
+    <div id="birak" class="birak" tabindex="0" role="button" aria-describedby="birak-ipucu">
+      <p class="birak-baslik">Klasörü ya da dosyaları buraya sürükleyip bırakın</p>
+      <p id="birak-ipucu" class="soluk">index.json · index.json.sig · açık anahtar (.pub/.pem) · depo dosyaları — Enter ile dosya seçin</p>
+    </div>
+    <div class="dugmeler">
+      <label class="dugme"><input id="sec-dosya" type="file" multiple class="gizli-girdi">Dosya seç</label>
+      <label class="dugme"><input id="sec-klasor" type="file" webkitdirectory multiple class="gizli-girdi">Klasör seç</label>
+      <label class="dugme"><input id="sec-anahtar" type="file" accept=".pub,.pem,.txt" class="gizli-girdi">Açık anahtar seç</label>
+      <button id="temizle" class="dugme ikincil" type="button">Temizle</button>
+    </div>
+    <ul class="roller" id="roller" aria-live="polite">
+      <li data-rol="indeks"><span class="isik" aria-hidden="true"></span>index.json <b>—</b></li>
+      <li data-rol="imza"><span class="isik" aria-hidden="true"></span>index.json.sig <b>—</b></li>
+      <li data-rol="anahtar"><span class="isik" aria-hidden="true"></span>açık anahtar <b>—</b></li>
+      <li data-rol="dosya"><span class="isik" aria-hidden="true"></span>depo dosyası <b>0</b></li>
+    </ul>
+    <details class="secenek">
+      <summary>Gelişmiş: geri alma koruması</summary>
+      <label for="en-dusuk">En düşük kabul edilen sürüm</label>
+      <input id="en-dusuk" type="number" min="1" step="1" inputmode="numeric" placeholder="ör. 7">
+      <p class="soluk">Daha önce gördüğünüz sürümü girin; daha eski (ama geçerli imzalı) bir indeks <code>SURUM_GERI</code> ile reddedilir.</p>
+    </details>
+    <button id="dogrula" class="dugme ana" type="button" disabled>Doğrula</button>
+  </section>
+
+  <section class="kart" aria-labelledby="b-ornek">
+    <h2 id="b-ornek" class="etiket">02 · ÖRNEK DEPOLAR</h2>
+    <p class="soluk">CLI ile üretilmiş gerçek imzalı örnekler (<code>docs/ornek/</code>). Özel anahtar depoda yok; yalnız <code>kok.pub</code> var.</p>
+    <div class="ornekler" id="ornekler"><p class="soluk">Yükleniyor…</p></div>
+  </section>
+
+  <section class="kart" id="sonuc" aria-labelledby="b-sonuc" tabindex="-1">
+    <h2 id="b-sonuc" class="etiket">03 · SONUÇ</h2>
+    <div id="ozet" class="ozet" data-durum="bekliyor" role="status" aria-live="polite">
+      <span class="isik" aria-hidden="true"></span>
+      <span id="ozet-metin">Henüz doğrulama yapılmadı.</span>
+    </div>
+    <dl class="bilgi" id="bilgi" hidden>
+      <div><dt>Kaynak</dt><dd id="b-kaynak">—</dd></div>
+      <div><dt>Anahtar kimliği</dt><dd id="b-kimlik" class="mono">—</dd></div>
+      <div><dt>Anahtar zinciri</dt><dd id="b-zincir">—</dd></div>
+      <div><dt>Sürüm</dt><dd id="b-surum">—</dd></div>
+      <div><dt>Son geçerlilik</dt><dd id="b-son">—</dd></div>
+    </dl>
+    <div class="tablo-kap">
+      <table id="tablo" hidden>
+        <caption class="gorunmez">Doğrulama sonuçları</caption>
+        <thead><tr><th scope="col">Öğe</th><th scope="col">Durum</th><th scope="col">Neden</th></tr></thead>
+        <tbody id="satirlar"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="kart" aria-labelledby="b-nasil">
+    <h2 id="b-nasil" class="etiket">04 · NASIL ÇALIŞIR</h2>
+    <ol class="adimlar">
+      <li><b>Zincir</b> — güvendiğiniz kök anahtardan başlayıp indekse gömülü her geçiş kaydının önceki anahtarla imzalı olduğu sınanır.</li>
+      <li><b>İmza</b> — <code>index.json</code>'un ham baytları, zincirin son anahtarıyla Ed25519 üzerinden doğrulanır.</li>
+      <li><b>Süre</b> — <code>son_gecerlilik</code> geçmişse indeks reddedilir (eski indeksin yeniden oynatılmasına karşı).</li>
+      <li><b>Dosyalar</b> — her dosyanın boyutu ve SHA-256 özeti indeksle karşılaştırılır; indekste olmayan dosya <i>imzasız</i> sayılır.</li>
+    </ol>
+    <p class="soluk">Komut satırı aracı aynı kuralları uygular ve örneklerde aynı sonucu verdiği headless testle sınanır.</p>
+  </section>
+</main>
+
+<footer class="alt-bilgi"><div class="kap">Semih Kaba · github.com/mrsemihkaba · MIT</div></footer>
+<input id="gizli-sec" type="file" multiple class="gizli-girdi" tabindex="-1" aria-hidden="true">
+</body>
+</html>

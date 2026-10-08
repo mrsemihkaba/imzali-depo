@@ -1,0 +1,62 @@
+{
+  "kok_anahtar": "anahtarlar/kok.pub",
+  "ornekler": [
+    {
+      "id": "gecerli",
+      "baslik": "Geçerli depo",
+      "beklenen": "gecerli",
+      "aciklama": "Kök anahtarla imzalı, tüm dosyalar sağlam.",
+      "dizin": "gecerli",
+      "dosyalar": [
+        "SURUMLER.txt",
+        "belgeler/kurulum.md",
+        "paketler/ornek-arac_1.2.0_amd64.bin",
+        "paketler/ornek-arac_1.2.0_arm64.bin",
+        "paketler/ornek-kutuphane-0.9.3.tar"
+      ]
+    },
+    {
+      "id": "dondurulmus",
+      "baslik": "Anahtar döndürülmüş",
+      "beklenen": "gecerli",
+      "aciklama": "Yeni anahtarla imzalı; kök → yeni geçiş kaydı indekse gömülü.",
+      "dizin": "dondurulmus",
+      "dosyalar": [
+        "SURUMLER.txt",
+        "belgeler/kurulum.md",
+        "paketler/ornek-arac_1.2.0_amd64.bin",
+        "paketler/ornek-arac_1.2.0_arm64.bin",
+        "paketler/ornek-kutuphane-0.9.3.tar"
+      ]
+    },
+    {
+      "id": "bozuk",
+      "baslik": "Bilerek bozulmuş",
+      "beklenen": "red",
+      "aciklama": "Bir pakette tek bit değişti ve imzasız bir betik eklendi.",
+      "dizin": "bozuk",
+      "dosyalar": [
+        "SURUMLER.txt",
+        "belgeler/kurulum.md",
+        "paketler/arka-kapi.sh",
+        "paketler/ornek-arac_1.2.0_amd64.bin",
+        "paketler/ornek-arac_1.2.0_arm64.bin",
+        "paketler/ornek-kutuphane-0.9.3.tar"
+      ]
+    },
+    {
+      "id": "suresi-gecmis",
+      "baslik": "Süresi geçmiş",
+      "beklenen": "red",
+      "aciklama": "İmza sağlam ama indeksin son geçerlilik tarihi geçti (yeniden oynatma).",
+      "dizin": "suresi-gecmis",
+      "dosyalar": [
+        "SURUMLER.txt",
+        "belgeler/kurulum.md",
+        "paketler/ornek-arac_1.2.0_amd64.bin",
+        "paketler/ornek-arac_1.2.0_arm64.bin",
+        "paketler/ornek-kutuphane-0.9.3.tar"
+      ]
+    }
+  ]
+}

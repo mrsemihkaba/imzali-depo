@@ -1,0 +1,3 @@
+ornek-arac 1.2.0 — kararlı
+ornek-kutuphane 0.9.3 — önizleme
+Bu depo SENTETİKTİR; yalnız imzali-depo doğrulayıcısını göstermek içindir.

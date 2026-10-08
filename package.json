@@ -1,0 +1,14 @@
+{
+  "name": "imzali-depo-panel-testleri",
+  "private": true,
+  "type": "module",
+  "description": "Tarayıcı doğrulayıcısının Python CLI ile eşdeğerliğini headless Chrome'da sınar.",
+  "scripts": {
+    "test": "node --test \"tests/js/*.test.mjs\"",
+    "ekran": "node araclar/ekran.mjs"
+  },
+  "devDependencies": {
+    "puppeteer-core": "24.10.0"
+  },
+  "license": "MIT"
+}

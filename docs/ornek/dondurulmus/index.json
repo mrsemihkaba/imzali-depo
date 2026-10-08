@@ -1,0 +1,41 @@
+{
+  "bicim": "imzali-depo/1",
+  "depo": "ornek-depo",
+  "surum": 8,
+  "olusturma": "2026-10-01T09:00:00Z",
+  "son_gecerlilik": "2036-09-28T09:00:00Z",
+  "anahtar_kimligi": "8f50be4f7fc396bd18691fab92b028f3",
+  "anahtar_zinciri": [
+    {
+      "kayit": "{\"bicim\":\"imzali-depo-gecis/1\",\"eski_anahtar_kimligi\":\"201fcc45ac0a6f08195aaaef4628ea9b\",\"yeni_anahtar_kimligi\":\"8f50be4f7fc396bd18691fab92b028f3\",\"yeni_acik_anahtar\":\"mNhzkrCwLy42gLTUVmTcWfSaWcID5QwT2PaND8PFRJs=\",\"tarih\":\"2026-10-01T09:00:00Z\"}",
+      "imza": "uowDSGJY54XWVMwi1lS3kReRM5LOJlLesJ5v6Bf+ADfmW/FHVrd1Q01nmsBplQ3V8uZoicsosWxVNbO6EADUCQ=="
+    }
+  ],
+  "dosyalar": [
+    {
+      "ad": "SURUMLER.txt",
+      "boyut": 151,
+      "sha256": "2fc9dec41350795b44e4b756b338519483d6fcd02716432017073b437467258d"
+    },
+    {
+      "ad": "belgeler/kurulum.md",
+      "boyut": 183,
+      "sha256": "38ad929aefaa2b3a95f4fd01b2d93c97a04799bd60400eefa14e0cd63ec5e9db"
+    },
+    {
+      "ad": "paketler/ornek-arac_1.2.0_amd64.bin",
+      "boyut": 48000,
+      "sha256": "b92b50c9a57efddc418dfd41a32cfab937b4ed51bb2d1b118002f1cc60e75689"
+    },
+    {
+      "ad": "paketler/ornek-arac_1.2.0_arm64.bin",
+      "boyut": 41500,
+      "sha256": "fbe493b85205c9844ae7cce1fa8b823648d74997024f68c3f803c1de26b252ac"
+    },
+    {
+      "ad": "paketler/ornek-kutuphane-0.9.3.tar",
+      "boyut": 12288,
+      "sha256": "9f69de25b309e6b6321cf447ae87983fc03bcb79032087de098bc17818fcf95c"
+    }
+  ]
+}
